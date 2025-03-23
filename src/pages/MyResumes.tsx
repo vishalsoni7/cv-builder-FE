@@ -4,37 +4,15 @@ import AddIcon from "@mui/icons-material/Add";
 import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useResumeContext } from "../store/ResumeStore";
 import { PATH } from "../constant/paths";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import ResumePreview from "../component/ResumePreview";
-import { ResumeInitialValue } from "../types/resume";
-import { useEffect, useState } from "react";
-import { initialResumeValues } from "../constant/initialValues";
 
 const ResumeBuilder = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
-  const { resumes, deleteResumeById, fetchResumeById } = useResumeContext();
-
-  const [selectedResume, setSelectedResume] =
-    useState<ResumeInitialValue>(initialResumeValues);
-
-  useEffect(() => {
-    const fetchResume = async () => {
-      if (!id) return;
-
-      try {
-        const resumeData = await fetchResumeById(id);
-        setSelectedResume(resumeData);
-      } catch (err: any) {
-        console.error(err.message || "Failed to fetch resume");
-      }
-    };
-
-    fetchResume();
-  }, [id, fetchResumeById]);
+  const { resumes, deleteResumeById } = useResumeContext();
 
   return (
     <Container maxWidth="lg">
@@ -98,18 +76,22 @@ const ResumeBuilder = () => {
                 alignItems="center"
               >
                 <PDFDownloadLink
-                  document={<ResumePreview resume={selectedResume} />}
-                  fileName={selectedResume.fullName}
+                  document={<ResumePreview resume={resume} />}
+                  fileName={`${resume.fullName}.pdf`}
                   style={{
                     textDecoration: "none",
                     height: "100%",
                   }}
                 >
-                  {() => (
-                    <IconButton>
-                      <ArrowCircleDownIcon sx={{ height: 28, width: 28 }} />
-                    </IconButton>
-                  )}
+                  {({ loading }) =>
+                    loading ? (
+                      <Typography>Loading...</Typography>
+                    ) : (
+                      <IconButton>
+                        <ArrowCircleDownIcon sx={{ height: 28, width: 28 }} />
+                      </IconButton>
+                    )
+                  }
                 </PDFDownloadLink>
 
                 <IconButton

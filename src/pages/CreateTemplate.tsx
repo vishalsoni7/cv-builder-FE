@@ -6,7 +6,7 @@ import { initialResumeValues } from "../constant/initialValues";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-const Template = () => {
+const CreateTemplate = () => {
   const { id } = useParams();
   const { fetchResumeById } = useResumeContext();
   const [resume, setResume] = useState<ResumeInitialValue>(initialResumeValues);
@@ -33,4 +33,4 @@ const Template = () => {
   );
 };
 
-export default Template;
+export default CreateTemplate;

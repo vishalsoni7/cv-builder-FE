@@ -1,3 +1,6 @@
+/**
+ * Interface representing the structure of a resume.
+ */
 export interface ResumeInitialValue {
   _id?: string;
   fullName: string;
@@ -12,6 +15,9 @@ export interface ResumeInitialValue {
   user: string;
 }
 
+/**
+ * Interface extending ResumeInitialValue to include API-related metadata.
+ */
 export interface ResumeApiResponse extends ResumeInitialValue {
   user: string;
   createdAt: string;
@@ -31,4 +37,11 @@ export interface ResumeStoreType {
   ) => Promise<void>;
   deleteResumeById: (resumeId: string) => Promise<void>;
   fetchResumeById: (resumeId: string) => Promise<ResumeInitialValue>;
+}
+
+/**
+ * Props definition for rendering a resume document.
+ */
+export interface ResumeDocumentProps {
+  resume: ResumeInitialValue;
 }

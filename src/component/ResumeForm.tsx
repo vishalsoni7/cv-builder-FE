@@ -5,8 +5,8 @@ import { resumeValidationSchema } from "../formik/resume";
 import { useResumeContext } from "../store/ResumeStore";
 import { useNavigate, useParams } from "react-router-dom";
 import { PATH } from "../constant/paths";
-import { ResumeInitialValue } from "../types/resume";
-import ResumePreview, { ResumeDocumentProps } from "./ResumePreview";
+import { ResumeDocumentProps, ResumeInitialValue } from "../types/resume";
+import ResumePreview from "./ResumePreview";
 
 const ResumeForm = ({ resume }: ResumeDocumentProps) => {
   const { createResume, updateResumeById } = useResumeContext();
@@ -64,7 +64,7 @@ const ResumeForm = ({ resume }: ResumeDocumentProps) => {
         sx={{
           padding: 2,
           width: "100%",
-          justifySelf: "center", 
+          justifySelf: "center",
         }}
       >
         <Formik
