@@ -2,12 +2,20 @@ import { Box, Grid2, Typography } from "@mui/material";
 import cvDocument from "../assets/CV Document.mp4";
 import { AuthPage } from "./Auth";
 
+/**
+ * Home Component
+ *
+ * - Displays a promotional landing page for Rootent’s resume builder.
+ * - Contains a heading, description, and a call-to-action (AuthPage).
+ * - Uses responsive design with Material UI Grid2 for proper alignment on different screen sizes.
+ */
 const Home = () => {
   return (
     <Box
       sx={{
-        padding: 2,
-        height: "calc(100% - 98px)",
+        px: 2,
+        py: { xs: 0, sm: 2 },
+        height: { xs: "calc(100% - 60px)", sm: "calc(100% - 98px)" },
         background: "white",
         boxShadow:
           "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
@@ -70,6 +78,9 @@ const Home = () => {
             }}
             autoPlay
             loop
+            muted
+            playsInline
+            aria-label="Resume Builder Demo Video"
           />
         </Grid2>
       </Grid2>

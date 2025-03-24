@@ -9,7 +9,21 @@ import { UserSignUpCredential } from "../types/user";
 import { userSignUpValidationSchema } from "../formik/user";
 import { useUserContext } from "../store/UserStore";
 import { PATH } from "../constant/paths";
+import { errorToast, successToast } from "../utils/toast";
+import {
+  SIGN_UP_SUCCESS,
+  SOMETHING_WENT_WRONG,
+} from "../constant/toastMessages";
 
+/**
+ * AuthPage Component
+ *
+ * This component handles user authentication (sign-up) using a modal form.
+ * - Displays a "Get Started" button, which opens a modal for sign-up.
+ * - Uses Formik for form handling with validation via Yup.
+ * - Redirects authenticated users to "My Templates".
+ * - Uses the UserContext for authentication logic.
+ */
 export const AuthPage = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -18,9 +32,14 @@ export const AuthPage = () => {
   const { signUp, isAuthenticated } = useUserContext();
 
   const handleSignUp = async (userData: UserSignUpCredential) => {
-    await signUp(userData);
-    handleClose();
-    navigate(PATH.myTemplates);
+    try {
+      await signUp(userData);
+      handleClose();
+      navigate(PATH.myTemplates);
+      successToast(SIGN_UP_SUCCESS);
+    } catch (error) {
+      errorToast(SOMETHING_WENT_WRONG || error);
+    }
   };
 
   const handleModal = () => {
@@ -97,7 +116,11 @@ export const AuthPage = () => {
                   size="large"
                   fullWidth
                   variant="contained"
-                  sx={{ marginTop: 2, boxShadow: "none" ,  background: "radial-gradient(circle, #dd6b20, #cf3033)",}}
+                  sx={{
+                    marginTop: 2,
+                    boxShadow: "none",
+                    background: "radial-gradient(circle, #dd6b20, #cf3033)",
+                  }}
                 >
                   Get in
                 </Button>

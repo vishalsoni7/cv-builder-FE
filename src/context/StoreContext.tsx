@@ -1,11 +1,10 @@
-import { useContext, createContext, ReactNode } from "react";
+import { useContext, createContext } from "react";
+import { StoreContextProviderProps } from "../types/components";
 
+// Utility function to create a store context with a provider and hook
+// This helps in managing global state with React Context API
 export function createStoreContext<T>(StoreProvider: () => T) {
   const context = createContext<T | null>(null);
-
-  interface StoreContextProviderProps {
-    children: ReactNode;
-  }
 
   function StoreContextProvider({ children }: StoreContextProviderProps) {
     const store = StoreProvider();

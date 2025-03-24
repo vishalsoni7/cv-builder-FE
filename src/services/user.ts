@@ -1,10 +1,11 @@
 import axios from "axios";
-import { BACKEND_BASE_URL } from "../constant/api";
 import {
   UserApiResponse,
   UserLogInCredential,
   UserSignUpCredential,
 } from "../types/user";
+
+const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 /**
  * Fetches the authenticated user's profile using the stored JWT token.

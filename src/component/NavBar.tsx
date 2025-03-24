@@ -14,12 +14,23 @@ import { CustomModal } from "./Modal";
 import { Form, Formik } from "formik";
 import { CustomTextField } from "./CustomTextField";
 import { useEffect, useState } from "react";
-import { guestCredentials, userLoginInitialValues } from "../constant/initialValues";
+import {
+  guestCredentials,
+  userLoginInitialValues,
+} from "../constant/initialValues";
 import { userLogInValidationSchema } from "../formik/user";
 import { UserLogInCredential } from "../types/user";
 import { useUserContext } from "../store/UserStore";
 import { PATH } from "../constant/paths";
+import { errorToast, successToast } from "../utils/toast";
+import {
+  GUEST_LOGIN_SUCCESS,
+  LOG_IN_SUCCESS,
+  LOG_OUT_SUCCESS,
+  SOMETHING_WENT_WRONG,
+} from "../constant/toastMessages";
 
+// NavBar with login feature
 export const NavBar = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -27,27 +38,42 @@ export const NavBar = () => {
   const handleClose = () => setOpen(false);
   const { login, logout, isAuthenticated } = useUserContext();
 
+  // Handle login/logout button click
   const handleLogInOut = async () => {
     if (isAuthenticated) {
       logout();
       navigate(PATH.home);
+      successToast(LOG_OUT_SUCCESS);
     } else {
       handleOpen();
     }
   };
 
+  // Handle user login
   const handleLogIn = async (values: UserLogInCredential) => {
-    await login(values);
-    handleClose();
-    navigate(PATH.myTemplates);
+    try {
+      await login(values);
+      handleClose();
+      navigate(PATH.myTemplates);
+      successToast(LOG_IN_SUCCESS);
+    } catch (error) {
+      errorToast(SOMETHING_WENT_WRONG || error);
+    }
   };
 
+  // Handle guest login
   const handleGuestLogin = async () => {
-    await login(guestCredentials);
-    handleClose();
-    navigate(PATH.myTemplates);
+    try {
+      await login(guestCredentials);
+      handleClose();
+      navigate(PATH.myTemplates);
+      successToast(GUEST_LOGIN_SUCCESS);
+    } catch (error) {
+      errorToast(SOMETHING_WENT_WRONG || error);
+    }
   };
 
+  // Redirect to home if user is not authenticated
   useEffect(() => {
     if (!isAuthenticated) {
       navigate(PATH.home);

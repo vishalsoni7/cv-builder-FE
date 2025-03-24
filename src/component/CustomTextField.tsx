@@ -1,17 +1,9 @@
 import React from "react";
 import { useField } from "formik";
 import { TextField } from "@mui/material";
+import { CustomTextFieldProps } from "../types/components";
 
-export interface CustomTextFieldProps {
-  name: string;
-  label: string;
-  type?: string;
-  placeholder?: string;
-  disabled?: boolean;
-  multiline?: boolean;
-  rows?: number;
-}
-
+// Using Formik hook to manage field state
 export const CustomTextField: React.FC<CustomTextFieldProps> = ({
   name,
   label,

@@ -12,6 +12,7 @@ const ResumePreview = ({ resume }: ResumeDocumentProps) => {
           <Text style={styles.title}>{resume.fullName}</Text>
         </View>
 
+        {/* Contact */}
         <View style={styles.contactInfo}>
           <Text>📞 {resume.number}</Text>
           <Text>💼 {resume.designation}</Text>

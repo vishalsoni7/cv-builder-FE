@@ -1,6 +1,6 @@
 import axios from "axios";
-import { BACKEND_BASE_URL } from "../constant/api";
 import { ResumeInitialValue } from "../types/resume";
+const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 /**
  * Creates a new resume

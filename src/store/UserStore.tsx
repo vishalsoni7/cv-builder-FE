@@ -12,7 +12,6 @@ import {
   signUpUser,
 } from "../services/user";
 import { createStoreContext } from "../context/StoreContext";
-
 const useUserStore = (): UserStoreType => {
   const [user, setUser] = useState<UserApiResponse | null>(null);
   const [token, setToken] = useState<string | null>(

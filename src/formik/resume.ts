@@ -1,11 +1,16 @@
 import * as Yup from "yup";
+import { EMAIL_REGEX, PHONE_REGEX } from "../constant/regex";
 
+// Validation schema for resume form using Yup
+// Ensures that required fields are provided and meet specific criteria
 export const resumeValidationSchema = Yup.object().shape({
   fullName: Yup.string().required("Full Name is required"),
-  email: Yup.string().email("Invalid email").required("Email is required"),
+  email: Yup.string()
+    .matches(EMAIL_REGEX, "Invalid email format")
+    .required("Email is required"),
   number: Yup.string()
-    .matches(/^\d+$/, "Number must be numeric")
-    .required("Number is required"),
+    .matches(PHONE_REGEX, "Phone number must be exactly 10 digits")
+    .required("Phone number is required"),
   skills: Yup.array()
     .of(Yup.string().required("Each skill is required"))
     .min(1, "At least one skill is required"),

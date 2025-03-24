@@ -7,12 +7,19 @@ import { useNavigate, useParams } from "react-router-dom";
 import { PATH } from "../constant/paths";
 import { ResumeDocumentProps, ResumeInitialValue } from "../types/resume";
 import ResumePreview from "./ResumePreview";
+import { errorToast, successToast } from "../utils/toast";
+import {
+  CREATE_RESUME_SUCCESS,
+  SOMETHING_WENT_WRONG,
+  UPDATE_RESUME_SUCCESS,
+} from "../constant/toastMessages";
 
 const ResumeForm = ({ resume }: ResumeDocumentProps) => {
   const { createResume, updateResumeById } = useResumeContext();
   const navigate = useNavigate();
   const { id } = useParams();
 
+  // Destructure resume data or set default values
   const {
     fullName,
     designation,
@@ -26,6 +33,7 @@ const ResumeForm = ({ resume }: ResumeDocumentProps) => {
     user,
   } = resume;
 
+  // Initialize form values with existing resume data or default values
   const resumeInitialValue: ResumeInitialValue = {
     fullName: fullName ?? "",
     designation: designation ?? "",
@@ -39,13 +47,21 @@ const ResumeForm = ({ resume }: ResumeDocumentProps) => {
     user: user ?? "",
   };
 
+  // Handle form submission
   const handleResume = async (values: ResumeInitialValue) => {
-    if (id) {
-      await updateResumeById(id, values);
-    } else {
-      await createResume(values);
+    try {
+      if (id) {
+        await updateResumeById(id, values);
+        successToast(UPDATE_RESUME_SUCCESS);
+      } else {
+        await createResume(values);
+        successToast(CREATE_RESUME_SUCCESS);
+      }
+    } catch (error) {
+      errorToast(SOMETHING_WENT_WRONG || error);
+    } finally {
+      navigate(PATH.myTemplates);
     }
-    navigate(PATH.myTemplates);
   };
 
   return (

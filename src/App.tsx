@@ -1,3 +1,4 @@
+import { Toaster } from "react-hot-toast";
 import "./App.css";
 import { NavBar } from "./component/NavBar";
 import AppRoutes from "./constant/Routes";
@@ -7,6 +8,7 @@ function App() {
     <>
       <NavBar />
       <AppRoutes />
+      <Toaster position="bottom-right" reverseOrder={false} />
     </>
   );
 }
